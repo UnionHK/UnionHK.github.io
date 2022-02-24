@@ -1,15 +1,16 @@
+// You can get the Hiro image that this demo needs here: https://jeromeetienne.github.io/AR.js/data/images/HIRO.jpg
+// Just load it up on your phone or print it out and point your camera at the image and a little blue-green box should appear!
 
-<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-<script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
-<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
-
-<body style=’margin : 0px; overflow: hidden;’>
-  <a-scene embedded arjs=’sourceType: webcam;’>
-      <a-marker preset=’hiro’>
-      <a-entity gltf-model="url(Chair_rotation.glb)scale="1 1 1">
-      </a-entity>
-      </a-marker>
-  <a-entity camera>
-  </a-entity>
-  </a-scene>
-</body>
+a-scene(embedded='', arjs='sourceType: webcam;' physics='debug: true; friction: 0.1; restitution: 1.25; gravity: -0.8;')
+  a-marker-camera(preset='hiro')
+  
+  a-plane(static-body rotation="-90 0 0" scale="3 3 3" color='blue')
+  - var n = 0;
+  - zCoord = 0;
+  while n < 5
+    - var xCoord = (-3 + (n * 1.25))
+    - var pos = xCoord +' 0 ' + zCoord
+    //- a-gltf-model(dynamic-body src="https://andrescuervo.github.io/assets/ghostie/ghostie.gltf" scale="0.25 0.25 0.25" position = pos animation__move="property: position; from: " + pos +"; to: " + xCoord + " -1 " + zCoord +"; dur: " + (n * 500) + "; dir: alternate; easing: linear; loop: true;")
+    a-gltf-model(dynamic-body src="rotation_chair.gltf" scale="0.25 0.25 0.25" position = pos)
+    - n++
+// GLTF model from: https://ten-thousand-models.appspot.com/detail.html?file_id=40746
