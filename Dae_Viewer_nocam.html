@@ -1,12 +1,8 @@
-<script src="https://aframe.io/releases/latest/aframe.min.js"></script>
-
+<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+<script src="https://jeromeetienne.github.io/AR.js/aframe/build/aframe-ar.js"></script>
 
 <body>
 	<a-scene stats>
-	<a-camera id="camera" position="0 1 0">
-    </a-camera>
-	<a-entity id="model">
-	<a-model src="./dae_model/meal.dae"></a-model>
-	</a-entity>
+	<a-entity collada-model=¡±url(./dae_model/meal.dae)¡±></a-entity>
 	</a-scene>
 </body>
