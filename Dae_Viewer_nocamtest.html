@@ -2,12 +2,13 @@
 
 
 <body>
-	<a-camera id="camera" look-controls position="0 1 0">
+	<a-scene stats vr-mode-ui="enabled: false">
+	<a-camera id="camera" look-controls position="0 0 1">
 	</a-camera>
 	<a-assets>
 	<a-asset-item id="meal" src="dae_model/meal.dae"></a-asset-item>
 	</a-assets>
-	<a-scene stats>
+	<a-entity 
 	<a-entity collada-model="#meal" position="0 0 0"¡±></a-entity>
 	</a-scene>
 </body>
