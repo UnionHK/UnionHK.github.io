@@ -43,13 +43,15 @@
 
 <body>
 	<a-scene stats vr-mode-ui="enabled: false" background="color: black">
-	<a-camera id="camera" look-controls="enabled:false">
-	</a-camera>
 	<a-assets>
-	<a-asset-item id="meal" src="dae_model/meal.dae"></a-asset-item>
+	<a-asset-item id="meal" src="dae_model/meal.dae" position="1 0 0"></a-asset-item>
 	</a-assets>
 	<a-entity 
 	<a-entity collada-model="#meal" position="0 0 0" rotation="0 0 0" drag-rotate-component¡±></a-entity>
+	
+	<a-entity position="0 -0.5 2">
+	<a-camera look-controls="enabled:false"></a-camera>
+	</a-entity>
 	</a-scene>
 </body>
 
