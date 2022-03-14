@@ -1,0 +1,18 @@
+<script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+
+
+
+<body>
+	<a-scene>
+	<a-sky color="#000000"></a-sky>
+	<a-entity camera="active:true" position="0 1 1" rotation="-45 0 0" look-controls></a-entity>
+	<a-assets>
+	<a-asset-item id="meal" src="dae_model/meal.dae" ></a-asset-item>
+	</a-assets>
+
+	<a-entity collada-model="#meal" position="0 0 0" rotation="0 0 0"></a-entity> 
+	
+	
+	
+	</a-scene>
+</body>
