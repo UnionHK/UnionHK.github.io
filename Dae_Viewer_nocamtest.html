@@ -1,59 +1,77 @@
 <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script type="text/javascript">
-    AFRAME.registerComponent('drag-rotate-component',{
-      schema : { speed : {default:1}},
-      init : function(){
-        this.ifMouseDown = false;
-        this.x_cord = 0;
-        this.y_cord = 0;
-        document.addEventListener('mousedown',this.OnDocumentMouseDown.bind(this));
-        document.addEventListener('mouseup',this.OnDocumentMouseUp.bind(this));
-        document.addEventListener('mousemove',this.OnDocumentMouseMove.bind(this));
-      },
-      OnDocumentMouseDown : function(event){
-        this.ifMouseDown = true;
-        this.x_cord = event.clientX;
-        this.y_cord = event.clientY;
-      },
-      OnDocumentMouseUp : function(){
-        this.ifMouseDown = false;
-      },
-      OnDocumentMouseMove : function(event)
-      {
-        if(this.ifMouseDown)
-        {
-          var temp_x = event.clientX-this.x_cord;
-          var temp_y = event.clientY-this.y_cord;
-          if(Math.abs(temp_y)<Math.abs(temp_x))
-          {
-            this.el.object3D.rotateY(temp_x*this.data.speed/1000);
-          }
-          else
-          {
-            this.el.object3D.rotateX(temp_y*this.data.speed/1000);
-          }
-          this.x_cord = event.clientX;
-          this.y_cord = event.clientY;
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+    <script type="text/javascript">
+      // Load check
+      AFRAME.registerComponent('model-loader', {
+        init: function () {
+          this.el.addEventListener('model-loaded', function () {
+            console.log('Finish model load');
+            $("#loading").hide();
+          });
         }
-      }
-    });
-</script>
+      });
+
+      // drag logic
+      $(function(){
+        var kRotateSpeed = 0.27;
+
+        var clicking = false;
+        var currentRotation;
+        var clickPosX = 0;
+        var clickPosY = 0;
+        var rotation = { x: 0 , y: 0, z: 0 };
+
+        // can touch device?
+        var isTouch = ('ontouchstart' in window);
+
+        $('#a-scene').bind({
+          'touchstart mousedown': function(e) {
+            clicking = true;
+            rotation = $('#model-parent').attr("rotation");
+            clickPosX = (isTouch ? event.changedTouches[0].pageX : e.pageX);
+            clickPosY = (isTouch ? event.changedTouches[0].pageY : e.pageY);
+          },
+          'touchmove mousemove': function(e) {
+            if(clicking == false) return;
+            //e.preventDefault();
+            var x = (isTouch ? event.changedTouches[0].pageX : e.pageX) - clickPosX;
+            var y = (isTouch ? event.changedTouches[0].pageY : e.pageY) - clickPosY;
+            var rad = rotation.y * Math.PI / 180;
+
+            rotation.y = rotation.y + (x * kRotateSpeed);
+            rotation.x = rotation.x + (Math.cos(rad) * y * kRotateSpeed);
+            rotation.z = rotation.z + (Math.sin(rad) * y * kRotateSpeed);
+
+            $('#model-parent').attr(
+              "rotation",
+              rotation.x + " " + rotation.y  + " " + rotation.z
+            );
+            clickPosX = (isTouch ? event.changedTouches[0].pageX : e.pageX);
+            clickPosY = (isTouch ? event.changedTouches[0].pageY : e.pageY);
+          },
+          'touchend mouseup mouseout': function(e) {
+            clicking = false;
+          }
+        });
+      });
+    </script>
 
 
 <body>
-	<a-scene stats vr-mode-ui="enabled: false" background="color: black">
+	<a-scene stats vr-mode-ui="enabled: false">
+	<a-sky color="#000000"></a-sky>
+	<a-entity camera position="0 2 4"></a-entity>
 	<a-assets>
 	<a-asset-item id="meal" src="dae_model/meal.dae" position="1 0 0"></a-asset-item>
 	</a-assets>
 	<a-entity 
-	<a-entity collada-model="#meal" position="0 0 0" rotation="0 0 0" drag-rotate-component¡±></a-entity>
+	<a-entity collada-model="#meal" position="0 0 0" rotation="0 0 0" model-loader¡±></a-entity>
 	
 	<a-entity position="0 -0.5 2">
 	<a-camera look-controls="enabled:false"></a-camera>
 	</a-entity>
 	
-	<a-sky color="#000000"></a-sky>
+	
 	</a-scene>
 </body>
 
